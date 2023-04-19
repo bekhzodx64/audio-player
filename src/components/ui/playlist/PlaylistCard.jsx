@@ -51,7 +51,9 @@ const PlaylistCard = ({
 	return (
 		<motion.div
 			variants={listItem}
-			className='flex items-center justify-between gap-2 px-4 py-3 cursor-pointer select-none drop-shadow-sm rounded-xl bg-slate-100 hover:scale-105 will-change-auto hover:shadow-md'
+			className={`flex items-center justify-between gap-2 px-4 py-3 cursor-pointer select-none drop-shadow-sm rounded-xl bg-slate-100 ${
+				activeTrack.id === item.id ? 'shadow-md scale-105' : ''
+			}`}
 			onClick={clickHandler}
 		>
 			<button
@@ -61,11 +63,11 @@ const PlaylistCard = ({
 				<MdOutlineFavoriteBorder />
 			</button>
 
-			<div className='w-10 h-10 pointer-events-none select-none aspect-square'>
+			<div className='overflow-hidden rounded-full pointer-events-none select-none h-[35px] w-[35px] flex-shrink-0'>
 				<img
-					src={Disc}
+					src={item.poster}
 					alt=''
-					className='object-scale-down w-full h-full'
+					className='object-cover w-full h-full'
 				/>
 			</div>
 			<div className='basis-full'>

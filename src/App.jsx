@@ -23,6 +23,8 @@ import track2 from './assets/tracks/track2.mp3'
 import track3 from './assets/tracks/track3.mp3'
 import track4 from './assets/tracks/track4.mp3'
 
+import poster1 from './assets/posters/happy.jpg'
+
 const formatTime = (time) => {
 	const minutes = Math.floor(time / 60)
 		.toString()
@@ -39,24 +41,28 @@ const playlist = [
 		title: 'Just A Cloud Way',
 		author: 'Pharrell Williams',
 		track: track1,
+		poster: poster1,
 	},
 	{
 		id: 2,
 		title: 'Happy',
 		author: 'Pharrell Williams',
 		track: track2,
+		poster: poster1,
 	},
 	{
 		id: 3,
 		title: 'Y.m.c.a.',
 		author: 'The Minions',
 		track: track3,
+		poster: poster1,
 	},
 	{
 		id: 4,
 		title: 'Fun, Fun, Fun',
 		author: 'Pharrell Williams',
 		track: track4,
+		poster: poster1,
 	},
 ]
 
@@ -100,24 +106,28 @@ function App() {
 			title: 'Just A Cloud Way',
 			author: 'Pharrell Williams',
 			track: track1,
+			poster: poster1,
 		},
 		{
 			id: 2,
 			title: 'Happy',
 			author: 'Pharrell Williams',
 			track: track2,
+			poster: poster1,
 		},
 		{
 			id: 3,
 			title: 'Y.m.c.a.',
 			author: 'The Minions',
 			track: track3,
+			poster: poster1,
 		},
 		{
 			id: 4,
 			title: 'Fun, Fun, Fun',
 			author: 'Pharrell Williams',
 			track: track4,
+			poster: poster1,
 		},
 	])
 	const [activeTrack, setActiveTrack] = useState(tracks[0])
@@ -215,10 +225,10 @@ function App() {
 	return (
 		<Wrapper>
 			<Toaster
-				position='bottom-right'
+				position='center-bottom'
 				reverseOrder={false}
 				toastOptions={{
-					duration: 1000,
+					duration: 2000,
 				}}
 			/>
 
@@ -246,7 +256,7 @@ function App() {
 					<div className='basis-11/12'>
 						<div className='aspect-square rounded-full overflow-hidden ring-8 ring-[#ebeff3] drop-shadow-lg'>
 							<img
-								src={Disc}
+								src={activeTrack && activeTrack.poster}
 								alt='disc'
 								className={`w-full h-full object-scale-down pointer-events-none select-none  ${
 									isPlaying ? 'animate-spin-slow' : ''
