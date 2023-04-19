@@ -4,19 +4,24 @@ import { useHotkeys } from 'react-hotkeys-hook'
 import { motion, AnimatePresence } from 'framer-motion'
 
 import Wrapper from './components/layout/wrapper'
+import PlaylistCard from './components/ui/playlist/PlaylistCard'
 
 import { BiShuffle, BiSkipNext, BiSkipPrevious } from 'react-icons/bi'
-import { BsPauseFill, BsPlayFill } from 'react-icons/bs'
+import { BsPauseFill, BsPlayFill, BsHeartbreakFill } from 'react-icons/bs'
 import {
 	IoVolumeHigh,
 	IoVolumeLow,
 	IoVolumeMedium,
 	IoVolumeMute,
 } from 'react-icons/io5'
-import { MdFavorite, MdOutlineFavoriteBorder } from 'react-icons/md'
+import { MdFavorite } from 'react-icons/md'
 import { RiPlayListFill } from 'react-icons/ri'
 import Disc from './assets/disc.png'
-import sound from './assets/track4.mp3'
+
+import track1 from './assets/tracks/track1.mp3'
+import track2 from './assets/tracks/track2.mp3'
+import track3 from './assets/tracks/track3.mp3'
+import track4 from './assets/tracks/track4.mp3'
 
 const formatTime = (time) => {
 	const minutes = Math.floor(time / 60)
@@ -31,31 +36,27 @@ const formatTime = (time) => {
 const playlist = [
 	{
 		id: 1,
-		title: 'test',
-		artist: 'test',
-		album: 'test',
-		cover: 'test',
+		title: 'Just A Cloud Way',
+		author: 'Pharrell Williams',
+		track: track1,
 	},
 	{
 		id: 2,
-		title: 'test',
-		artist: 'test',
-		album: 'test',
-		cover: 'test',
+		title: 'Happy',
+		author: 'Pharrell Williams',
+		track: track2,
 	},
 	{
 		id: 3,
-		title: 'test',
-		artist: 'test',
-		album: 'test',
-		cover: 'test',
+		title: 'Y.m.c.a.',
+		author: 'The Minions',
+		track: track3,
 	},
 	{
 		id: 4,
-		title: 'test',
-		artist: 'test',
-		album: 'test',
-		cover: 'test',
+		title: 'Fun, Fun, Fun',
+		author: 'Pharrell Williams',
+		track: track4,
 	},
 ]
 
@@ -79,24 +80,47 @@ const list = {
 	},
 }
 
-const listItem = {
-	visible: { opacity: 1, y: 0 },
-	hidden: { opacity: 0, y: -50 },
-}
-
 function App() {
 	const audioRef = useRef()
 
 	const [favorite, setFavorite] = useState(false)
 
 	const [isPlaying, setIsPlaying] = useState(false)
-	const [muted, setMuted] = useState(false)
 	const [volume, setVolume] = useState(1)
 
 	const [fullDuration, setFullDuration] = useState(0)
 	const [currentTime, setCurrentTime] = useState(0)
 
 	const [showPlaylist, setShowPlaylist] = useState(false)
+	const [showFavorites, setShowFavorites] = useState(true)
+
+	const [tracks] = useState([
+		{
+			id: 1,
+			title: 'Just A Cloud Way',
+			author: 'Pharrell Williams',
+			track: track1,
+		},
+		{
+			id: 2,
+			title: 'Happy',
+			author: 'Pharrell Williams',
+			track: track2,
+		},
+		{
+			id: 3,
+			title: 'Y.m.c.a.',
+			author: 'The Minions',
+			track: track3,
+		},
+		{
+			id: 4,
+			title: 'Fun, Fun, Fun',
+			author: 'Pharrell Williams',
+			track: track4,
+		},
+	])
+	const [activeTrack, setActiveTrack] = useState(tracks[0])
 
 	const toggleFavorite = () => {
 		setFavorite(!favorite)
@@ -116,6 +140,16 @@ function App() {
 		}
 	}
 
+	const toggleMute = () => {
+		if (volume) {
+			setVolume(0)
+			return (audioRef.current.volume = 0)
+		} else {
+			setVolume(1)
+			audioRef.current.volume = 1
+		}
+	}
+
 	const togglePlaylist = () => {
 		setShowPlaylist(!showPlaylist)
 	}
@@ -127,7 +161,6 @@ function App() {
 	}
 
 	const changeTimeHandler = (e) => {
-		// setCurrentTime(e.target.valueAsNumber)
 		return (audioRef.current.currentTime = e.target.valueAsNumber)
 	}
 
@@ -152,16 +185,14 @@ function App() {
 	// })
 
 	useHotkeys('KeyM', () => {
-		setMuted(!muted)
-
-		if (!muted) {
+		if (volume) {
 			setVolume(0)
-			return
+			return (audioRef.current.volume = 0)
 		}
 
-		if (muted) {
+		if (!volume) {
 			setVolume(1)
-			return
+			return (audioRef.current.volume = 1)
 		}
 	})
 
@@ -181,18 +212,6 @@ function App() {
 		}
 	}
 
-	useEffect(() => {
-		if (volume === 0) {
-			setMuted(true)
-			return
-		}
-
-		if (volume >= 0.1) {
-			setMuted(false)
-			return
-		}
-	}, [volume])
-
 	return (
 		<Wrapper>
 			<Toaster
@@ -203,7 +222,26 @@ function App() {
 				}}
 			/>
 
-			<div className='container grid grid-cols-4 gap-5'>
+			<div className='container grid grid-cols-4 gap-5 h-[412px]'>
+				<AnimatePresence>
+					{showFavorites && (
+						<motion.div
+							initial='hidden'
+							animate='visible'
+							exit='exit'
+							variants={list}
+							className='bg-[#ecf0f3] flex flex-col p-5 drop-shadow-md gap-3 relative z-10 h-full'
+						>
+							<div className='relative flex flex-col items-center justify-center h-full gap-4'>
+								<h2 className='max-w-[150px] font-bold text-xl text-[#6f6869] text-center'>
+									No Data
+								</h2>
+								<BsHeartbreakFill className='text-[#6f6869]/30 text-9xl absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2' />
+							</div>
+						</motion.div>
+					)}
+				</AnimatePresence>
+
 				<div className='bg-[#ecf0f3] px-10 py-14 drop-shadow-md flex gap-8 col-span-2 col-start-2 relative z-20'>
 					<div className='basis-11/12'>
 						<div className='aspect-square rounded-full overflow-hidden ring-8 ring-[#ebeff3] drop-shadow-lg'>
@@ -221,13 +259,13 @@ function App() {
 					<div className='flex flex-col gap-5 basis-full'>
 						<div className='flex flex-col items-center gap-1'>
 							<h1 className='text-[#6f6f6d] text-3xl font-bold line-clamp-1'>
-								DJ Track - Shaab
+								{activeTrack && activeTrack.title}
 							</h1>
 							<div className='flex items-baseline justify-center gap-5'>
 								<p className='text-[#6c6b6c] font-semibold text-base'>
-									Red Hot Chill Peppers
+									{activeTrack && activeTrack.author}
 								</p>
-								<p className='text-[#78797b] text-sm'>Stadium Arcadium</p>
+								{/* <p className='text-[#78797b] text-sm'>Stadium Arcadium</p> */}
 							</div>
 						</div>
 
@@ -305,6 +343,7 @@ function App() {
 								<button
 									type='button'
 									className='rounded-full w-10 h-10 drop-shadow-sm border bg-[#ebeff3] flex items-center justify-center transition'
+									onClick={toggleMute}
 								>
 									{volumeBarIcons()}
 								</button>
@@ -343,7 +382,8 @@ function App() {
 
 						<audio
 							ref={audioRef}
-							muted={muted}
+							key={activeTrack.track}
+							autoPlay
 							volume={volume}
 							preload='auto'
 							onCanPlay={(e) => setFullDuration(e.target.duration)}
@@ -351,7 +391,7 @@ function App() {
 							onEnded={() => setIsPlaying(false)}
 						>
 							<source
-								src={sound}
+								src={activeTrack.track}
 								type='audio/mpeg'
 							/>
 						</audio>
@@ -368,35 +408,16 @@ function App() {
 							className='bg-[#ecf0f3] flex flex-col p-5 drop-shadow-md gap-3 relative z-10'
 						>
 							{playlist.map((item) => (
-								<motion.div
-									variants={listItem}
-									className='flex items-center justify-between gap-2 px-4 py-3 cursor-pointer drop-shadow-sm rounded-xl bg-slate-100 hover:scale-105 will-change-auto hover:shadow-md'
-								>
-									<button
-										type='button'
-										className='hover:text-[#d11514] transition'
-									>
-										<MdOutlineFavoriteBorder />
-									</button>
-
-									<div className='w-10 h-10 pointer-events-none select-none aspect-square'>
-										<img
-											src={Disc}
-											alt=''
-											className='object-scale-down w-full h-full'
-										/>
-									</div>
-									<div className='basis-full'>
-										<h2 className='text-sm font-bold line-clamp-1'>
-											DJ Track - Shaab
-										</h2>
-										<p className='text-xs line-clamp-2'>
-											Red Hot Chill Peppers Stadium Arcadium
-										</p>
-									</div>
-
-									<div className='text-xs text-[#97999a]'>2:25</div>
-								</motion.div>
+								<PlaylistCard
+									key={item.id}
+									item={item}
+									audioRef={audioRef}
+									activeTrack={activeTrack}
+									isPlaying={isPlaying}
+									setIsPlaying={setIsPlaying}
+									setCurrentTime={setCurrentTime}
+									setActiveTrack={setActiveTrack}
+								/>
 							))}
 						</motion.div>
 					)}
