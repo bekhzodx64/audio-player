@@ -3,22 +3,18 @@ import useAudioStore from 'store'
 import ControlButton from 'components/components/ControlButton'
 
 import {
-	IoVolumeMute,
+	IoVolumeHigh,
 	IoVolumeLow,
 	IoVolumeMedium,
-	IoVolumeHigh,
+	IoVolumeMute,
 } from 'react-icons/io5'
-import { BiShuffle } from 'react-icons/bi'
-import { RiPlayListFill } from 'react-icons/ri'
+import { RiPlayListLine } from 'react-icons/ri'
+import { BsShuffle } from 'react-icons/bs'
 import { TfiLoop } from 'react-icons/tfi'
 
 const PlayerControls = () => {
 	const { toggleLoop, playerRef, volume, toggleMute, setVolume } =
 		useAudioStore((state) => state.player)
-
-	const getVolumeBg = () => {
-		return { backgroundSize: `${(volume / 1) * 100}% 100%` }
-	}
 
 	const volumeBarIcons = volumeFuntion(volume)
 
@@ -37,6 +33,10 @@ const PlayerControls = () => {
 		}
 	}
 
+	const getVolumeBg = () => {
+		return { backgroundSize: `${(volume / 1) * 100}% 100%` }
+	}
+
 	return (
 		<div className='flex justify-between'>
 			<div className='flex items-center gap-3 volume'>
@@ -47,14 +47,14 @@ const PlayerControls = () => {
 				/>
 
 				<input
-					type='range'
 					min='0'
 					max='1'
 					step='0.1'
+					type='range'
 					value={volume}
-					onChange={volumeChangeHandler}
-					className='w-24 shadow-inner'
 					style={getVolumeBg()}
+					className='w-24 shadow-inner'
+					onChange={volumeChangeHandler}
 				/>
 			</div>
 
@@ -64,8 +64,8 @@ const PlayerControls = () => {
 					onClick={toggleLoop}
 					icon={<TfiLoop size={22} />}
 				/>
-				<ControlButton icon={<BiShuffle size={22} />} />
-				<ControlButton icon={<RiPlayListFill size={22} />} />
+				<ControlButton icon={<BsShuffle size={22} />} />
+				<ControlButton icon={<RiPlayListLine size={22} />} />
 			</div>
 		</div>
 	)

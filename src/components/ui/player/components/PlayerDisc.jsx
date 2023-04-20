@@ -1,13 +1,19 @@
+import useAudioStore from 'store'
+
 import poster1 from 'assets/posters/happy.jpg'
 
 const PlayerDisc = () => {
+	const { isPlaying } = useAudioStore((state) => state.player)
+
 	return (
 		<div className='basis-11/12'>
 			<div className='relative overflow-hidden rounded-full ring-8 ring-white drop-shadow-lg aspect-square'>
 				<img
 					src={poster1}
 					alt='track poster'
-					className='object-cover w-full h-full pointer-events-none select-none'
+					className={`object-cover w-full h-full pointer-events-none select-none ${
+						isPlaying ? 'animate-spin-slow' : ''
+					}`}
 					draggable={false}
 				/>
 

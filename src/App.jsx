@@ -1,6 +1,6 @@
 // import { useEffect, useRef, useState } from 'react'
 // import toast, { Toaster } from 'react-hot-toast'
-// import { useHotkeys } from 'react-hotkeys-hook'
+import { useHotkeys } from 'react-hotkeys-hook'
 // import { motion, AnimatePresence } from 'framer-motion'
 
 import useAudioStore from 'store'
@@ -113,19 +113,11 @@ import AudioPlayer from 'components/components/AudioPlayer'
 // }
 
 function App() {
-	const store = useAudioStore((state) => state.player)
-	console.log('🪲 ~ file: App.jsx:117 ~ App ~ store:', store)
-
-	// const audioRef = useRef()
+	const { playerRef, volume, setVolume } = useAudioStore(
+		(state) => state.player
+	)
 
 	// const [favorite, setFavorite] = useState(false)
-
-	// const [isPlaying, setIsPlaying] = useState(false)
-	// const [volume, setVolume] = useState(1)
-
-	// const [fullDuration, setFullDuration] = useState(0)
-	// const [currentTime, setCurrentTime] = useState(0)
-
 	// const [showPlaylist, setShowPlaylist] = useState(false)
 	// const [showFavorites, setShowFavorites] = useState(true)
 
@@ -181,18 +173,6 @@ function App() {
 	// 	if (favorite) toast.error('Removed from favorites!')
 	// }
 
-	// const togglePlay = () => {
-	// 	const audio = audioRef.current
-
-	// 	if (isPlaying) {
-	// 		audio.pause()
-	// 		setIsPlaying(false)
-	// 	} else {
-	// 		audio.play()
-	// 		setIsPlaying(true)
-	// 	}
-	// }
-
 	// const playNextTrack = () => {
 	// 	if (!isPlaying) setIsPlaying(true)
 
@@ -219,65 +199,21 @@ function App() {
 	// 	audio.play()
 	// }
 
-	// const toggleMute = () => {
-	// 	if (volume) {
-	// 		setVolume(0)
-	// 		return (audioRef.current.volume = 0)
-	// 	} else {
-	// 		setVolume(1)
-	// 		audioRef.current.volume = 1
-	// 	}
-	// }
-
 	// const togglePlaylist = () => {
 	// 	setShowPlaylist(!showPlaylist)
 	// }
 
-	// const volumeChangeHandler = (event) => {
-	// 	setVolume(+event.target.value)
+	useHotkeys('KeyM', () => {
+		if (volume) {
+			setVolume(0)
+			return (playerRef.volume = 0)
+		}
 
-	// 	return (audioRef.current.volume = +event.target.value)
-	// }
-
-	// const changeTimeHandler = (e) => {
-	// 	return (audioRef.current.currentTime = e.target.valueAsNumber)
-	// }
-
-	// const getTimelineBg = () => {
-	// 	return { backgroundSize: `${(currentTime / fullDuration) * 100}% 100%` }
-	// }
-
-	// const getVolumeBg = () => {
-	// 	return { backgroundSize: `${(volume / 1) * 100}% 100%` }
-	// }
-
-	// useHotkeys('KeyM', () => {
-	// 	if (volume) {
-	// 		setVolume(0)
-	// 		return (audioRef.current.volume = 0)
-	// 	}
-
-	// 	if (!volume) {
-	// 		setVolume(1)
-	// 		return (audioRef.current.volume = 1)
-	// 	}
-	// })
-
-	// const volumeBarIcons = () => {
-	// 	switch (true) {
-	// 		case volume < 0.1:
-	// 			return <IoVolumeMute className='text-2xl text-[#6f6869]' />
-
-	// 		case volume >= 0.1 && volume <= 0.3:
-	// 			return <IoVolumeLow className='text-2xl text-[#6f6869]' />
-
-	// 		case volume >= 0.4 && volume <= 0.7:
-	// 			return <IoVolumeMedium className='text-2xl text-[#6f6869]' />
-
-	// 		default:
-	// 			return <IoVolumeHigh className='text-2xl text-[#6f6869]' />
-	// 	}
-	// }
+		if (!volume) {
+			setVolume(1)
+			return (playerRef.volume = 1)
+		}
+	})
 
 	return (
 		<Wrapper>
