@@ -113,7 +113,7 @@ import AudioPlayer from 'components/components/AudioPlayer'
 // }
 
 function App() {
-	const store = useAudioStore((state) => state)
+	const store = useAudioStore((state) => state.player)
 	console.log('🪲 ~ file: App.jsx:117 ~ App ~ store:', store)
 
 	// const audioRef = useRef()

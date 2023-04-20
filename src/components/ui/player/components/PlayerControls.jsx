@@ -1,3 +1,5 @@
+import useAudioStore from 'store'
+
 import ControlButton from 'components/components/ControlButton'
 
 import {
@@ -8,42 +10,72 @@ import {
 } from 'react-icons/io5'
 import { BiShuffle } from 'react-icons/bi'
 import { RiPlayListFill } from 'react-icons/ri'
+import { TfiLoop } from 'react-icons/tfi'
 
 const PlayerControls = () => {
-	// const volumeBarIcons = () => {
-	// 	switch (true) {
-	// 		case volume < 0.1:
-	// 			return <IoVolumeMute className='text-2xl text-[#6f6869]' />
+	const { toggleLoop, playerRef, volume, toggleMute } = useAudioStore(
+		(state) => state.player
+	)
 
-	// 		case volume >= 0.1 && volume <= 0.3:
-	// 			return <IoVolumeLow className='text-2xl text-[#6f6869]' />
-
-	// 		case volume >= 0.4 && volume <= 0.7:
-	// 			return <IoVolumeMedium className='text-2xl text-[#6f6869]' />
-
-	// 		default:
-	// 			return <IoVolumeHigh className='text-2xl text-[#6f6869]' />
-	// 	}
+	// const getVolumeBg = () => {
+	// 	return { backgroundSize: `${(volume / 1) * 100}% 100%` }
 	// }
+
+	const volumeBarIcons = () => {
+		switch (true) {
+			case volume < 0.1:
+				return <IoVolumeMute size={22} />
+			case volume >= 0.1 && volume <= 0.3:
+				return <IoVolumeLow size={22} />
+			case volume >= 0.4 && volume <= 0.7:
+				return <IoVolumeMedium size={22} />
+			default:
+				return <IoVolumeHigh size={22} />
+		}
+	}
+
+	// const volumeChangeHandler = (event) => {
+	// 	setVolume(+event.target.value)
+	// 	return (playerRef.volume = +event.target.value)
+	// }
+
+	const toggleMuteHandler = () => {
+		toggleMute()
+
+		if (volume) {
+			playerRef.volume = 0
+		} else {
+			playerRef.volume = 1
+		}
+	}
 
 	return (
 		<div className='flex justify-between'>
 			<div className='flex items-center gap-3 volume'>
-				<ControlButton icon={<IoVolumeHigh size={22} />} />
+				<ControlButton
+					role='mute'
+					onClick={toggleMuteHandler}
+					icon={volumeBarIcons()}
+				/>
 
-				<input
+				{/* <input
 					type='range'
 					min='0'
 					max='1'
 					step='0.1'
 					// value={volume}
 					// onChange={volumeChangeHandler}
-					className='shadow-inner'
+					className='w-24 shadow-inner'
 					// style={getVolumeBg()}
-				/>
+				/> */}
 			</div>
 
 			<div className='flex items-center gap-3'>
+				<ControlButton
+					role='loop'
+					onClick={toggleLoop}
+					icon={<TfiLoop size={22} />}
+				/>
 				<ControlButton icon={<BiShuffle size={22} />} />
 				<ControlButton icon={<RiPlayListFill size={22} />} />
 			</div>

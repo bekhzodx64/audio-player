@@ -1,22 +1,37 @@
+import useAudioStore from 'store'
+
+import { formatTime } from 'helpers/functions'
+
 const PlayerTimeline = () => {
+	const { duration, currentTime, playerRef } = useAudioStore(
+		(state) => state.player
+	)
+
+	const updatePlaybackTime = (event) => {
+		playerRef.currentTime = event.target.valueAsNumber
+	}
+
+	const getAudioBackground = () => {
+		return { backgroundSize: `${(currentTime / duration) * 100}% 100%` }
+	}
+
 	return (
 		<div className='flex flex-col'>
 			<div className='flex items-baseline justify-between text-sm text-[#97999a] font-light leading-tight'>
-				<p>1:28</p>
-				<p>3:45</p>
+				<p>{formatTime(currentTime)}</p>
+				<p>{formatTime(duration)}</p>
 			</div>
 
 			<div className='slider'>
 				<input
-					type='range'
 					min={0}
-					// max={Math.floor(fullDuration)}
-					max={100}
 					step={0.1}
+					type='range'
+					value={currentTime}
+					max={Math.floor(duration)}
 					className='w-full inner-shadow'
-					// value={currentTime}
-					// onChange={(e) => changeTimeHandler(e)}
-					// style={getTimelineBg()}
+					onChange={(e) => updatePlaybackTime(e)}
+					style={getAudioBackground()}
 				/>
 			</div>
 		</div>

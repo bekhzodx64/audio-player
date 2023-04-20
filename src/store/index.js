@@ -1,49 +1,73 @@
 import { create } from 'zustand'
 
-const useAudioStore = create(
-	(set, get) => ({
-		player: {
-			isPlaying: false,
-			volume: 1,
-			togglePlay: () => {
-				set((state) => ({
-					player: { ...state.player, isPlaying: !state.player.isPlaying },
-				}))
-			},
+const useAudioStore = create((set, get) => ({
+	player: {
+		playerRef: null,
+		isPlaying: false,
+		loop: false,
+		volume: 1,
+		duration: 0,
+		currentTime: 0,
+		getPlayerRef: (audioRef) => {
+			set((state) => ({
+				player: { ...state.player, playerRef: audioRef.current },
+			}))
 		},
-		tracks: {
-			list: [],
-			countTracks: () => {
-				return get().tracks.list.length
-			},
+		getDuration: (duration) => {
+			set((state) => ({
+				player: { ...state.player, duration },
+			}))
 		},
-		favorites: {
-			list: [],
-			addToFavorites: (track) => {
-				set((state) => ({
-					favorites: {
-						...state.favorites,
-						list: [...state.favorites.list, track],
-					},
-				}))
-			},
-			removeFromFavorites: (track) => {
-				set((state) => ({
-					favorites: {
-						...state.favorites,
-						list: state.favorites.list.filter((fav) => fav.id !== track.id),
-					},
-				}))
-			},
-			countFavorites() {
-				return get().favorites.list.length
-			},
+		getCurrentTime: (currentTime) => {
+			set((state) => ({
+				player: { ...state.player, currentTime },
+			}))
 		},
-		actions: {},
-	})
-
-	// increasePopulation: () => set((state) => ({ bears: state.bears + 1 })),
-	// removeAllBears: () => set({ bears: 0 }),
-)
+		togglePlay: () => {
+			set((state) => ({
+				player: { ...state.player, isPlaying: !state.player.isPlaying },
+			}))
+		},
+		toggleLoop: () => {
+			set((state) => ({
+				player: { ...state.player, loop: !state.player.loop },
+			}))
+		},
+		toggleMute: () => { 
+			set((state) => ({
+				player: { ...state.player, volume: state.player.volume === 0 ? 1 : 0 },
+			}))
+		}
+	},
+	// tracks: {
+	// 	list: [],
+	// 	countTracks: () => {
+	// 		return get().tracks.list.length
+	// 	},
+	// },
+	// favorites: {
+	// 	list: [],
+	// 	addToFavorites: (track) => {
+	// 		set((state) => ({
+	// 			favorites: {
+	// 				...state.favorites,
+	// 				list: [...state.favorites.list, track],
+	// 			},
+	// 		}))
+	// 	},
+	// 	removeFromFavorites: (track) => {
+	// 		set((state) => ({
+	// 			favorites: {
+	// 				...state.favorites,
+	// 				list: state.favorites.list.filter((fav) => fav.id !== track.id),
+	// 			},
+	// 		}))
+	// 	},
+	// 	countFavorites() {
+	// 		return get().favorites.list.length
+	// 	},
+	// },
+	// actions: {},
+}))
 
 export default useAudioStore

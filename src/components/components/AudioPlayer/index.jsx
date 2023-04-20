@@ -2,30 +2,26 @@ import { useRef } from 'react'
 
 import useAudioStore from 'store'
 
-import track1 from 'assets/tracks/track2.mp3'
+import track1 from 'assets/tracks/track5.mp3'
 
 const AudioPlayer = () => {
 	const audioRef = useRef()
 
-	const saveAudioRefToStore = useAudioStore(
-		(state) => state.player.saveAudioRefToStore
-	)
-
-	const handleAudioLoad = () => {
-		saveAudioRefToStore(audioRef)
-	}
+	const { getPlayerRef, togglePlay, getDuration, getCurrentTime, loop } =
+		useAudioStore((state) => state.player)
 
 	return (
 		<>
 			<audio
-				ref={audioRef}
-				// key={activeTrack.id}
-				// volume={volume}
 				preload='auto'
-				onLoadedData={handleAudioLoad}
-				// onCanPlay={(e) => setFullDuration(e.target.duration)}
-				// onTimeUpdate={(e) => setCurrentTime(e.target.currentTime)}
-				// onEnded={() => setIsPlaying(false)}
+				ref={audioRef}
+				onEnded={togglePlay}
+				loop={loop}
+				onLoadedData={() => getPlayerRef(audioRef)}
+				onCanPlay={(e) => getDuration(e.target.duration)}
+				onTimeUpdate={(e) => getCurrentTime(e.target.currentTime)}
+				// volume={volume}
+				// key={activeTrack.id}
 			>
 				<source
 					// src={activeTrack.track}
