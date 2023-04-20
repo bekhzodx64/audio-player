@@ -33,11 +33,16 @@ const useAudioStore = create((set, get) => ({
 				player: { ...state.player, loop: !state.player.loop },
 			}))
 		},
-		toggleMute: () => { 
+		toggleMute: () => {
 			set((state) => ({
 				player: { ...state.player, volume: state.player.volume === 0 ? 1 : 0 },
 			}))
-		}
+		},
+		setVolume: (volume) => {
+			set((state) => ({
+				player: { ...state.player, volume },
+			}))
+		},
 	},
 	// tracks: {
 	// 	list: [],

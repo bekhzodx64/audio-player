@@ -13,31 +13,19 @@ import { RiPlayListFill } from 'react-icons/ri'
 import { TfiLoop } from 'react-icons/tfi'
 
 const PlayerControls = () => {
-	const { toggleLoop, playerRef, volume, toggleMute } = useAudioStore(
-		(state) => state.player
-	)
+	const { toggleLoop, playerRef, volume, toggleMute, setVolume } =
+		useAudioStore((state) => state.player)
 
-	// const getVolumeBg = () => {
-	// 	return { backgroundSize: `${(volume / 1) * 100}% 100%` }
-	// }
-
-	const volumeBarIcons = () => {
-		switch (true) {
-			case volume < 0.1:
-				return <IoVolumeMute size={22} />
-			case volume >= 0.1 && volume <= 0.3:
-				return <IoVolumeLow size={22} />
-			case volume >= 0.4 && volume <= 0.7:
-				return <IoVolumeMedium size={22} />
-			default:
-				return <IoVolumeHigh size={22} />
-		}
+	const getVolumeBg = () => {
+		return { backgroundSize: `${(volume / 1) * 100}% 100%` }
 	}
 
-	// const volumeChangeHandler = (event) => {
-	// 	setVolume(+event.target.value)
-	// 	return (playerRef.volume = +event.target.value)
-	// }
+	const volumeBarIcons = volumeFuntion(volume)
+
+	const volumeChangeHandler = (event) => {
+		setVolume(+event.target.value)
+		return (playerRef.volume = +event.target.value)
+	}
 
 	const toggleMuteHandler = () => {
 		toggleMute()
@@ -58,16 +46,16 @@ const PlayerControls = () => {
 					icon={volumeBarIcons()}
 				/>
 
-				{/* <input
+				<input
 					type='range'
 					min='0'
 					max='1'
 					step='0.1'
-					// value={volume}
-					// onChange={volumeChangeHandler}
+					value={volume}
+					onChange={volumeChangeHandler}
 					className='w-24 shadow-inner'
-					// style={getVolumeBg()}
-				/> */}
+					style={getVolumeBg()}
+				/>
 			</div>
 
 			<div className='flex items-center gap-3'>
@@ -84,3 +72,18 @@ const PlayerControls = () => {
 }
 
 export default PlayerControls
+
+function volumeFuntion(volume) {
+	return () => {
+		switch (true) {
+			case volume < 0.1:
+				return <IoVolumeMute size={22} />
+			case volume >= 0.1 && volume <= 0.3:
+				return <IoVolumeLow size={22} />
+			case volume >= 0.4 && volume <= 0.7:
+				return <IoVolumeMedium size={22} />
+			default:
+				return <IoVolumeHigh size={22} />
+		}
+	}
+}
