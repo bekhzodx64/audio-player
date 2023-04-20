@@ -1,4 +1,4 @@
-import { useRef, useState } from 'react'
+import { useEffect, useRef, useState } from 'react'
 import toast, { Toaster } from 'react-hot-toast'
 import { useHotkeys } from 'react-hotkeys-hook'
 import { motion, AnimatePresence } from 'framer-motion'
@@ -18,12 +18,14 @@ import { MdFavorite } from 'react-icons/md'
 import { RiPlayListFill } from 'react-icons/ri'
 
 import track2 from './assets/tracks/track2.mp3'
+import track3 from './assets/tracks/track3.mp3'
 import track5 from './assets/tracks/track5.mp3'
 import track6 from './assets/tracks/track6.mp3'
 import track7 from './assets/tracks/track7.mp3'
 import track8 from './assets/tracks/track8.mp3'
 
 import poster1 from './assets/posters/happy.jpg'
+import poster3 from './assets/posters/interstellar.png'
 import poster5 from './assets/posters/shaab.jpg'
 import poster6 from './assets/posters/aladdin.jpg'
 import poster7 from './assets/posters/icequeen.jpg'
@@ -49,27 +51,34 @@ const playlist = [
 	},
 	{
 		id: 2,
+		title: 'Our Destiny Lies Above Us',
+		author: 'Hans Zimmer',
+		track: track3,
+		poster: poster3,
+	},
+	{
+		id: 3,
 		title: 'Shaab',
 		author: 'DJ Track',
 		track: track5,
 		poster: poster5,
 	},
 	{
-		id: 3,
+		id: 4,
 		title: 'Friend Like Me',
 		author: 'Robin Williams ',
 		track: track6,
 		poster: poster6,
 	},
 	{
-		id: 4,
+		id: 5,
 		title: 'Ice Queen',
 		author: 'Within Temptation',
 		track: track7,
 		poster: poster7,
 	},
 	{
-		id: 5,
+		id: 6,
 		title: 'Sets Go Up',
 		author: 'Juvenile',
 		track: track8,
@@ -121,27 +130,34 @@ function App() {
 		},
 		{
 			id: 2,
+			title: 'Our Destiny Lies Above Us',
+			author: 'Hans Zimmer',
+			track: track3,
+			poster: poster3,
+		},
+		{
+			id: 3,
 			title: 'Shaab',
 			author: 'DJ Track',
 			track: track5,
 			poster: poster5,
 		},
 		{
-			id: 3,
+			id: 4,
 			title: 'Friend Like Me',
 			author: 'Robin Williams ',
 			track: track6,
 			poster: poster6,
 		},
 		{
-			id: 4,
+			id: 5,
 			title: 'Ice Queen',
 			author: 'Within Temptation',
 			track: track7,
 			poster: poster7,
 		},
 		{
-			id: 5,
+			id: 6,
 			title: 'Sets Go Up',
 			author: 'Juvenile',
 			track: track8,
