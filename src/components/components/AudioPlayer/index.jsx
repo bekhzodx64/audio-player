@@ -20,7 +20,6 @@ const AudioPlayer = () => {
 				onLoadedData={() => getPlayerRef(audioRef)}
 				onCanPlay={(e) => getDuration(e.target.duration)}
 				onTimeUpdate={(e) => getCurrentTime(e.target.currentTime)}
-				// volume={volume}
 				// key={activeTrack.id}
 			>
 				<source
