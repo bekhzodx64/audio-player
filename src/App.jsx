@@ -1,287 +1,292 @@
-import { useEffect, useRef, useState } from 'react'
-import toast, { Toaster } from 'react-hot-toast'
-import { useHotkeys } from 'react-hotkeys-hook'
-import { motion, AnimatePresence } from 'framer-motion'
+// import { useEffect, useRef, useState } from 'react'
+// import toast, { Toaster } from 'react-hot-toast'
+// import { useHotkeys } from 'react-hotkeys-hook'
+// import { motion, AnimatePresence } from 'framer-motion'
 
-import Wrapper from './components/layout/wrapper'
-import PlaylistCard from './components/ui/playlist/PlaylistCard'
+import useAudioStore from 'store'
 
-import { BiShuffle, BiSkipNext, BiSkipPrevious } from 'react-icons/bi'
-import { BsPauseFill, BsPlayFill, BsHeartbreakFill } from 'react-icons/bs'
-import {
-	IoVolumeHigh,
-	IoVolumeLow,
-	IoVolumeMedium,
-	IoVolumeMute,
-} from 'react-icons/io5'
-import { MdFavorite } from 'react-icons/md'
-import { RiPlayListFill } from 'react-icons/ri'
+import Wrapper from 'components/layout/Wrapper'
+import Layout from 'components/layout/Layout'
+import Player from 'components/ui/player'
+import AudioPlayer from 'components/components/AudioPlayer'
 
-import track2 from './assets/tracks/track2.mp3'
-import track3 from './assets/tracks/track3.mp3'
-import track5 from './assets/tracks/track5.mp3'
-import track6 from './assets/tracks/track6.mp3'
-import track7 from './assets/tracks/track7.mp3'
-import track8 from './assets/tracks/track8.mp3'
+// import PlaylistCard from './components/ui/playlist/PlaylistCard'
 
-import poster1 from './assets/posters/happy.jpg'
-import poster3 from './assets/posters/interstellar.png'
-import poster5 from './assets/posters/shaab.jpg'
-import poster6 from './assets/posters/aladdin.jpg'
-import poster7 from './assets/posters/icequeen.jpg'
-import poster8 from './assets/posters/mostwanted.jpg'
+// import { BiShuffle, BiSkipNext, BiSkipPrevious } from 'react-icons/bi'
+// import { BsPauseFill, BsPlayFill, BsHeartbreakFill } from 'react-icons/bs'
+// import {
+// 	IoVolumeHigh,
+// 	IoVolumeLow,
+// 	IoVolumeMedium,
+// 	IoVolumeMute,
+// } from 'react-icons/io5'
+// import { MdFavorite } from 'react-icons/md'
+// import { RiPlayListFill } from 'react-icons/ri'
 
-const formatTime = (time) => {
-	const minutes = Math.floor(time / 60)
-		.toString()
-		.padStart(2, '0')
-	const seconds = Math.floor(time % 60)
-		.toString()
-		.padStart(2, '0')
-	return `${minutes}:${seconds}`
-}
+// import track2 from './assets/tracks/track2.mp3'
+// import track3 from './assets/tracks/track3.mp3'
+// import track5 from './assets/tracks/track5.mp3'
+// import track6 from './assets/tracks/track6.mp3'
+// import track7 from './assets/tracks/track7.mp3'
+// import track8 from './assets/tracks/track8.mp3'
 
-const playlist = [
-	{
-		id: 1,
-		title: 'Happy',
-		author: 'Pharrell Williams',
-		track: track2,
-		poster: poster1,
-	},
-	{
-		id: 2,
-		title: 'Our Destiny Lies Above Us',
-		author: 'Hans Zimmer',
-		track: track3,
-		poster: poster3,
-	},
-	{
-		id: 3,
-		title: 'Shaab',
-		author: 'DJ Track',
-		track: track5,
-		poster: poster5,
-	},
-	{
-		id: 4,
-		title: 'Friend Like Me',
-		author: 'Robin Williams ',
-		track: track6,
-		poster: poster6,
-	},
-	{
-		id: 5,
-		title: 'Ice Queen',
-		author: 'Within Temptation',
-		track: track7,
-		poster: poster7,
-	},
-	{
-		id: 6,
-		title: 'Sets Go Up',
-		author: 'Juvenile',
-		track: track8,
-		poster: poster8,
-	},
-]
+// import poster1 from './assets/posters/happy.jpg'
+// import poster3 from './assets/posters/interstellar.png'
+// import poster5 from './assets/posters/shaab.jpg'
+// import poster6 from './assets/posters/aladdin.jpg'
+// import poster7 from './assets/posters/icequeen.jpg'
+// import poster8 from './assets/posters/mostwanted.jpg'
 
-const list = {
-	visible: {
-		x: 0,
-		transition: {
-			when: 'beforeChildren',
-			staggerChildren: 0.2,
-		},
-	},
-	hidden: {
-		x: '-100%',
-	},
-	exit: {
-		opacity: 0,
-		x: '-80%',
-		transition: {
-			duration: 0.3,
-		},
-	},
-}
+// const formatTime = (time) => {
+// 	const minutes = Math.floor(time / 60)
+// 		.toString()
+// 		.padStart(2, '0')
+// 	const seconds = Math.floor(time % 60)
+// 		.toString()
+// 		.padStart(2, '0')
+// 	return `${minutes}:${seconds}`
+// }
+
+// const playlist = [
+// 	{
+// 		id: 1,
+// 		title: 'Happy',
+// 		author: 'Pharrell Williams',
+// 		track: track2,
+// 		poster: poster1,
+// 	},
+// 	{
+// 		id: 2,
+// 		title: 'Our Destiny Lies Above Us',
+// 		author: 'Hans Zimmer',
+// 		track: track3,
+// 		poster: poster3,
+// 	},
+// 	{
+// 		id: 3,
+// 		title: 'Shaab',
+// 		author: 'DJ Track',
+// 		track: track5,
+// 		poster: poster5,
+// 	},
+// 	{
+// 		id: 4,
+// 		title: 'Friend Like Me',
+// 		author: 'Robin Williams ',
+// 		track: track6,
+// 		poster: poster6,
+// 	},
+// 	{
+// 		id: 5,
+// 		title: 'Ice Queen',
+// 		author: 'Within Temptation',
+// 		track: track7,
+// 		poster: poster7,
+// 	},
+// 	{
+// 		id: 6,
+// 		title: 'Sets Go Up',
+// 		author: 'Juvenile',
+// 		track: track8,
+// 		poster: poster8,
+// 	},
+// ]
+
+// const list = {
+// 	visible: {
+// 		x: 0,
+// 		transition: {
+// 			when: 'beforeChildren',
+// 			staggerChildren: 0.2,
+// 		},
+// 	},
+// 	hidden: {
+// 		x: '-100%',
+// 	},
+// 	exit: {
+// 		opacity: 0,
+// 		x: '-80%',
+// 		transition: {
+// 			duration: 0.3,
+// 		},
+// 	},
+// }
 
 function App() {
-	const audioRef = useRef()
+	const store = useAudioStore((state) => state)
+	console.log('🪲 ~ file: App.jsx:117 ~ App ~ store:', store)
 
-	const [favorite, setFavorite] = useState(false)
+	// const audioRef = useRef()
 
-	const [isPlaying, setIsPlaying] = useState(false)
-	const [volume, setVolume] = useState(1)
+	// const [favorite, setFavorite] = useState(false)
 
-	const [fullDuration, setFullDuration] = useState(0)
-	const [currentTime, setCurrentTime] = useState(0)
+	// const [isPlaying, setIsPlaying] = useState(false)
+	// const [volume, setVolume] = useState(1)
 
-	const [showPlaylist, setShowPlaylist] = useState(false)
-	const [showFavorites, setShowFavorites] = useState(true)
+	// const [fullDuration, setFullDuration] = useState(0)
+	// const [currentTime, setCurrentTime] = useState(0)
 
-	const [tracks] = useState([
-		{
-			id: 1,
-			title: 'Happy',
-			author: 'Pharrell Williams',
-			track: track2,
-			poster: poster1,
-		},
-		{
-			id: 2,
-			title: 'Our Destiny Lies Above Us',
-			author: 'Hans Zimmer',
-			track: track3,
-			poster: poster3,
-		},
-		{
-			id: 3,
-			title: 'Shaab',
-			author: 'DJ Track',
-			track: track5,
-			poster: poster5,
-		},
-		{
-			id: 4,
-			title: 'Friend Like Me',
-			author: 'Robin Williams ',
-			track: track6,
-			poster: poster6,
-		},
-		{
-			id: 5,
-			title: 'Ice Queen',
-			author: 'Within Temptation',
-			track: track7,
-			poster: poster7,
-		},
-		{
-			id: 6,
-			title: 'Sets Go Up',
-			author: 'Juvenile',
-			track: track8,
-			poster: poster8,
-		},
-	])
-	const [activeTrack, setActiveTrack] = useState(tracks[0])
+	// const [showPlaylist, setShowPlaylist] = useState(false)
+	// const [showFavorites, setShowFavorites] = useState(true)
 
-	const playNextTrack = () => {
-		if (!isPlaying) setIsPlaying(true)
+	// const [tracks] = useState([
+	// 	{
+	// 		id: 1,
+	// 		title: 'Happy',
+	// 		author: 'Pharrell Williams',
+	// 		track: track2,
+	// 		poster: poster1,
+	// 	},
+	// 	{
+	// 		id: 2,
+	// 		title: 'Our Destiny Lies Above Us',
+	// 		author: 'Hans Zimmer',
+	// 		track: track3,
+	// 		poster: poster3,
+	// 	},
+	// 	{
+	// 		id: 3,
+	// 		title: 'Shaab',
+	// 		author: 'DJ Track',
+	// 		track: track5,
+	// 		poster: poster5,
+	// 	},
+	// 	{
+	// 		id: 4,
+	// 		title: 'Friend Like Me',
+	// 		author: 'Robin Williams ',
+	// 		track: track6,
+	// 		poster: poster6,
+	// 	},
+	// 	{
+	// 		id: 5,
+	// 		title: 'Ice Queen',
+	// 		author: 'Within Temptation',
+	// 		track: track7,
+	// 		poster: poster7,
+	// 	},
+	// 	{
+	// 		id: 6,
+	// 		title: 'Sets Go Up',
+	// 		author: 'Juvenile',
+	// 		track: track8,
+	// 		poster: poster8,
+	// 	},
+	// ])
+	// const [activeTrack, setActiveTrack] = useState(tracks[0])
 
-		const currentIndex = tracks.indexOf(activeTrack)
-		const nextIndex = (currentIndex + 1) % tracks.length
-		const nextTrack = tracks[nextIndex]
-		setActiveTrack(nextTrack)
+	// const toggleFavorite = () => {
+	// 	setFavorite(!favorite)
+	// 	if (!favorite) toast.success('Added to favorites!')
+	// 	if (favorite) toast.error('Removed from favorites!')
+	// }
 
-		const audio = new Audio(nextTrack)
-		audioRef.current = audio
-		audio.play()
-	}
+	// const togglePlay = () => {
+	// 	const audio = audioRef.current
 
-	const playPrevTrack = () => {
-		if (!isPlaying) setIsPlaying(true)
+	// 	if (isPlaying) {
+	// 		audio.pause()
+	// 		setIsPlaying(false)
+	// 	} else {
+	// 		audio.play()
+	// 		setIsPlaying(true)
+	// 	}
+	// }
 
-		const currentIndex = tracks.indexOf(activeTrack)
-		const nextIndex = (currentIndex - 1) % tracks.length
-		const nextTrack = tracks[nextIndex]
-		setActiveTrack(nextTrack)
+	// const playNextTrack = () => {
+	// 	if (!isPlaying) setIsPlaying(true)
 
-		const audio = new Audio(nextTrack)
-		audioRef.current = audio
-		audio.play()
-	}
+	// 	const currentIndex = tracks.indexOf(activeTrack)
+	// 	const nextIndex = (currentIndex + 1) % tracks.length
+	// 	const nextTrack = tracks[nextIndex]
+	// 	setActiveTrack(nextTrack)
 
-	const toggleFavorite = () => {
-		setFavorite(!favorite)
-		if (!favorite) toast.success('Added to favorites!')
-		if (favorite) toast.error('Removed from favorites!')
-	}
+	// 	const audio = new Audio(nextTrack)
+	// 	audioRef.current = audio
+	// 	audio.play()
+	// }
 
-	const togglePlay = () => {
-		const audio = audioRef.current
+	// const playPrevTrack = () => {
+	// 	if (!isPlaying) setIsPlaying(true)
 
-		if (isPlaying) {
-			audio.pause()
-			setIsPlaying(false)
-		} else {
-			audio.play()
-			setIsPlaying(true)
-		}
-	}
+	// 	const currentIndex = tracks.indexOf(activeTrack)
+	// 	const nextIndex = (currentIndex - 1) % tracks.length
+	// 	const nextTrack = tracks[nextIndex]
+	// 	setActiveTrack(nextTrack)
 
-	const toggleMute = () => {
-		if (volume) {
-			setVolume(0)
-			return (audioRef.current.volume = 0)
-		} else {
-			setVolume(1)
-			audioRef.current.volume = 1
-		}
-	}
+	// 	const audio = new Audio(nextTrack)
+	// 	audioRef.current = audio
+	// 	audio.play()
+	// }
 
-	const togglePlaylist = () => {
-		setShowPlaylist(!showPlaylist)
-	}
+	// const toggleMute = () => {
+	// 	if (volume) {
+	// 		setVolume(0)
+	// 		return (audioRef.current.volume = 0)
+	// 	} else {
+	// 		setVolume(1)
+	// 		audioRef.current.volume = 1
+	// 	}
+	// }
 
-	const volumeChangeHandler = (event) => {
-		setVolume(+event.target.value)
+	// const togglePlaylist = () => {
+	// 	setShowPlaylist(!showPlaylist)
+	// }
 
-		return (audioRef.current.volume = +event.target.value)
-	}
+	// const volumeChangeHandler = (event) => {
+	// 	setVolume(+event.target.value)
 
-	const changeTimeHandler = (e) => {
-		return (audioRef.current.currentTime = e.target.valueAsNumber)
-	}
+	// 	return (audioRef.current.volume = +event.target.value)
+	// }
 
-	const getTimelineBg = () => {
-		return { backgroundSize: `${(currentTime / fullDuration) * 100}% 100%` }
-	}
+	// const changeTimeHandler = (e) => {
+	// 	return (audioRef.current.currentTime = e.target.valueAsNumber)
+	// }
 
-	const getVolumeBg = () => {
-		return { backgroundSize: `${(volume / 1) * 100}% 100%` }
-	}
+	// const getTimelineBg = () => {
+	// 	return { backgroundSize: `${(currentTime / fullDuration) * 100}% 100%` }
+	// }
 
-	useHotkeys('KeyM', () => {
-		if (volume) {
-			setVolume(0)
-			return (audioRef.current.volume = 0)
-		}
+	// const getVolumeBg = () => {
+	// 	return { backgroundSize: `${(volume / 1) * 100}% 100%` }
+	// }
 
-		if (!volume) {
-			setVolume(1)
-			return (audioRef.current.volume = 1)
-		}
-	})
+	// useHotkeys('KeyM', () => {
+	// 	if (volume) {
+	// 		setVolume(0)
+	// 		return (audioRef.current.volume = 0)
+	// 	}
 
-	const volumeBarIcons = () => {
-		switch (true) {
-			case volume < 0.1:
-				return <IoVolumeMute className='text-2xl text-[#6f6869]' />
+	// 	if (!volume) {
+	// 		setVolume(1)
+	// 		return (audioRef.current.volume = 1)
+	// 	}
+	// })
 
-			case volume >= 0.1 && volume <= 0.3:
-				return <IoVolumeLow className='text-2xl text-[#6f6869]' />
+	// const volumeBarIcons = () => {
+	// 	switch (true) {
+	// 		case volume < 0.1:
+	// 			return <IoVolumeMute className='text-2xl text-[#6f6869]' />
 
-			case volume >= 0.4 && volume <= 0.7:
-				return <IoVolumeMedium className='text-2xl text-[#6f6869]' />
+	// 		case volume >= 0.1 && volume <= 0.3:
+	// 			return <IoVolumeLow className='text-2xl text-[#6f6869]' />
 
-			default:
-				return <IoVolumeHigh className='text-2xl text-[#6f6869]' />
-		}
-	}
+	// 		case volume >= 0.4 && volume <= 0.7:
+	// 			return <IoVolumeMedium className='text-2xl text-[#6f6869]' />
+
+	// 		default:
+	// 			return <IoVolumeHigh className='text-2xl text-[#6f6869]' />
+	// 	}
+	// }
 
 	return (
 		<Wrapper>
-			<Toaster
-				position='center-bottom'
-				reverseOrder={false}
-				toastOptions={{
-					duration: 2000,
-				}}
-			/>
+			<Layout>
+				<Player />
+				<AudioPlayer />
+			</Layout>
 
-			<div className='container grid grid-cols-4 gap-5 h-[412px]'>
-				<AnimatePresence>
+			{/* <AnimatePresence>
 					{showFavorites && (
 						<motion.div
 							initial='hidden'
@@ -298,9 +303,9 @@ function App() {
 							</div>
 						</motion.div>
 					)}
-				</AnimatePresence>
+				</AnimatePresence> */}
 
-				<div className='bg-[#ecf0f3] px-10 py-14 drop-shadow-md flex gap-8 col-span-2 col-start-2 relative z-20'>
+			{/* <div className='bg-[#ecf0f3] px-10 py-14 drop-shadow-md flex gap-8 col-span-2 col-start-2 relative z-20'>
 					<div className='basis-11/12'>
 						<div className='relative overflow-hidden rounded-full ring-8 ring-white drop-shadow-lg'>
 							<img
@@ -327,7 +332,6 @@ function App() {
 								<p className='text-[#6c6b6c] font-semibold text-base'>
 									{activeTrack && activeTrack.author}
 								</p>
-								{/* <p className='text-[#78797b] text-sm'>Stadium Arcadium</p> */}
 							</div>
 						</div>
 
@@ -447,7 +451,6 @@ function App() {
 						<audio
 							ref={audioRef}
 							key={activeTrack.id}
-							autoPlay
 							volume={volume}
 							preload='auto'
 							onCanPlay={(e) => setFullDuration(e.target.duration)}
@@ -460,9 +463,9 @@ function App() {
 							/>
 						</audio>
 					</div>
-				</div>
+				</div> */}
 
-				<AnimatePresence>
+			{/* <AnimatePresence>
 					{showPlaylist && (
 						<motion.div
 							initial='hidden'
@@ -485,8 +488,7 @@ function App() {
 							))}
 						</motion.div>
 					)}
-				</AnimatePresence>
-			</div>
+				</AnimatePresence> */}
 		</Wrapper>
 	)
 }

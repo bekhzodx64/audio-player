@@ -16,7 +16,7 @@
 @layer components {
 	.slider input[type='range'] {
 		-webkit-appearance: none;
-		height: 12px;
+		height: 10px;
 		border-radius: 50px;
 		background-image: linear-gradient(#a435f0, #a435f0);
 		background-repeat: no-repeat;
@@ -24,8 +24,8 @@
 
 	.slider input[type='range']::-webkit-slider-thumb {
 		-webkit-appearance: none;
-		width: 12px;
-		height: 12px;
+		width: 10px;
+		height: 10px;
 		@apply transition bg-white rounded-full ring-4 ring-purple-500 ring-opacity-80 hover:ring-opacity-100;
 	}
 

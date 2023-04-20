@@ -32,14 +32,16 @@ const PlaylistCard = ({
 	const [duration, setDuration] = useState(0)
 
 	const clickHandler = () => {
+		const audio = new Audio(item)
+		audioRef.current = audio
 		setActiveTrack(item)
 
 		if (isPlaying) {
 			setIsPlaying(false)
-			audioRef.current.pause()
+			audio.pause()
 		} else {
 			setIsPlaying(true)
-			audioRef.current.play()
+			audio.play()
 		}
 
 		if (activeTrack.id !== item.id) {
