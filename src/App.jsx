@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState } from 'react'
+import { useRef, useState } from 'react'
 import toast, { Toaster } from 'react-hot-toast'
 import { useHotkeys } from 'react-hotkeys-hook'
 import { motion, AnimatePresence } from 'framer-motion'
@@ -16,14 +16,18 @@ import {
 } from 'react-icons/io5'
 import { MdFavorite } from 'react-icons/md'
 import { RiPlayListFill } from 'react-icons/ri'
-import Disc from './assets/disc.png'
 
-import track1 from './assets/tracks/track1.mp3'
 import track2 from './assets/tracks/track2.mp3'
-import track3 from './assets/tracks/track3.mp3'
-import track4 from './assets/tracks/track4.mp3'
+import track5 from './assets/tracks/track5.mp3'
+import track6 from './assets/tracks/track6.mp3'
+import track7 from './assets/tracks/track7.mp3'
+import track8 from './assets/tracks/track8.mp3'
 
 import poster1 from './assets/posters/happy.jpg'
+import poster5 from './assets/posters/shaab.jpg'
+import poster6 from './assets/posters/aladdin.jpg'
+import poster7 from './assets/posters/icequeen.jpg'
+import poster8 from './assets/posters/mostwanted.jpg'
 
 const formatTime = (time) => {
 	const minutes = Math.floor(time / 60)
@@ -38,31 +42,38 @@ const formatTime = (time) => {
 const playlist = [
 	{
 		id: 1,
-		title: 'Just A Cloud Way',
-		author: 'Pharrell Williams',
-		track: track1,
-		poster: poster1,
-	},
-	{
-		id: 2,
 		title: 'Happy',
 		author: 'Pharrell Williams',
 		track: track2,
 		poster: poster1,
 	},
 	{
+		id: 2,
+		title: 'Shaab',
+		author: 'DJ Track',
+		track: track5,
+		poster: poster5,
+	},
+	{
 		id: 3,
-		title: 'Y.m.c.a.',
-		author: 'The Minions',
-		track: track3,
-		poster: poster1,
+		title: 'Friend Like Me',
+		author: 'Robin Williams ',
+		track: track6,
+		poster: poster6,
 	},
 	{
 		id: 4,
-		title: 'Fun, Fun, Fun',
-		author: 'Pharrell Williams',
-		track: track4,
-		poster: poster1,
+		title: 'Ice Queen',
+		author: 'Within Temptation',
+		track: track7,
+		poster: poster7,
+	},
+	{
+		id: 5,
+		title: 'Sets Go Up',
+		author: 'Juvenile',
+		track: track8,
+		poster: poster8,
 	},
 ]
 
@@ -103,34 +114,67 @@ function App() {
 	const [tracks] = useState([
 		{
 			id: 1,
-			title: 'Just A Cloud Way',
-			author: 'Pharrell Williams',
-			track: track1,
-			poster: poster1,
-		},
-		{
-			id: 2,
 			title: 'Happy',
 			author: 'Pharrell Williams',
 			track: track2,
 			poster: poster1,
 		},
 		{
+			id: 2,
+			title: 'Shaab',
+			author: 'DJ Track',
+			track: track5,
+			poster: poster5,
+		},
+		{
 			id: 3,
-			title: 'Y.m.c.a.',
-			author: 'The Minions',
-			track: track3,
-			poster: poster1,
+			title: 'Friend Like Me',
+			author: 'Robin Williams ',
+			track: track6,
+			poster: poster6,
 		},
 		{
 			id: 4,
-			title: 'Fun, Fun, Fun',
-			author: 'Pharrell Williams',
-			track: track4,
-			poster: poster1,
+			title: 'Ice Queen',
+			author: 'Within Temptation',
+			track: track7,
+			poster: poster7,
+		},
+		{
+			id: 5,
+			title: 'Sets Go Up',
+			author: 'Juvenile',
+			track: track8,
+			poster: poster8,
 		},
 	])
 	const [activeTrack, setActiveTrack] = useState(tracks[0])
+
+	const playNextTrack = () => {
+		if (!isPlaying) setIsPlaying(true)
+
+		const currentIndex = tracks.indexOf(activeTrack)
+		const nextIndex = (currentIndex + 1) % tracks.length
+		const nextTrack = tracks[nextIndex]
+		setActiveTrack(nextTrack)
+
+		const audio = new Audio(nextTrack)
+		audioRef.current = audio
+		audio.play()
+	}
+
+	const playPrevTrack = () => {
+		if (!isPlaying) setIsPlaying(true)
+
+		const currentIndex = tracks.indexOf(activeTrack)
+		const nextIndex = (currentIndex - 1) % tracks.length
+		const nextTrack = tracks[nextIndex]
+		setActiveTrack(nextTrack)
+
+		const audio = new Audio(nextTrack)
+		audioRef.current = audio
+		audio.play()
+	}
 
 	const toggleFavorite = () => {
 		setFavorite(!favorite)
@@ -181,18 +225,6 @@ function App() {
 	const getVolumeBg = () => {
 		return { backgroundSize: `${(volume / 1) * 100}% 100%` }
 	}
-
-	// FIXME: need to change logic!!!
-	// useHotkeys('Space', () => {
-	// 	const audio = audioRef.current
-	// 	if (isPlaying) {
-	// 		// audio.pause()
-	// 		setIsPlaying(false)
-	// 	} else {
-	// 		// audio.play()
-	// 		setIsPlaying(true)
-	// 	}
-	// })
 
 	useHotkeys('KeyM', () => {
 		if (volume) {
@@ -254,15 +286,19 @@ function App() {
 
 				<div className='bg-[#ecf0f3] px-10 py-14 drop-shadow-md flex gap-8 col-span-2 col-start-2 relative z-20'>
 					<div className='basis-11/12'>
-						<div className='aspect-square rounded-full overflow-hidden ring-8 ring-[#ebeff3] drop-shadow-lg'>
+						<div className='relative overflow-hidden rounded-full ring-8 ring-white drop-shadow-lg'>
 							<img
 								src={activeTrack && activeTrack.poster}
 								alt='disc'
-								className={`w-full h-full object-scale-down pointer-events-none select-none  ${
+								className={`w-full h-full object-cover aspect-square pointer-events-none select-none  ${
 									isPlaying ? 'animate-spin-slow' : ''
 								}`}
 								draggable={false}
 							/>
+
+							<div className='absolute w-10 h-10 -translate-x-1/2 -translate-y-1/2 bg-white rounded-full ring-white/80 ring-8 top-1/2 left-1/2'>
+								<div className='absolute w-3 h-3 -translate-x-1/2 -translate-y-1/2 rounded-full bg-black/50 top-1/2 left-1/2'></div>
+							</div>
 						</div>
 					</div>
 
@@ -298,6 +334,7 @@ function App() {
 							<button
 								type='button'
 								className='rounded-full drop-shadow-sm border w-14 h-14 bg-[#ebeff3] flex items-center justify-center active:shadow-inner active:drop-shadow-none transition select-none cursor-pointer'
+								onClick={playPrevTrack}
 							>
 								<p className='text-[#6f6869]'>
 									<BiSkipPrevious className='text-5xl' />
@@ -321,6 +358,7 @@ function App() {
 							<button
 								type='button'
 								className='rounded-full drop-shadow-sm border w-14 h-14 bg-[#ebeff3] flex items-center justify-center active:shadow-inner active:drop-shadow-none transition select-none cursor-pointer'
+								onClick={playNextTrack}
 							>
 								<p className='text-[#6f6869]'>
 									<BiSkipNext className='text-5xl' />
@@ -392,7 +430,7 @@ function App() {
 
 						<audio
 							ref={audioRef}
-							key={activeTrack.track}
+							key={activeTrack.id}
 							autoPlay
 							volume={volume}
 							preload='auto'
@@ -415,7 +453,7 @@ function App() {
 							animate='visible'
 							exit='exit'
 							variants={list}
-							className='bg-[#ecf0f3] flex flex-col p-5 drop-shadow-md gap-3 relative z-10'
+							className='bg-[#ecf0f3] flex flex-col p-5 drop-shadow-md gap-3 relative z-10 h-full overflow-y-auto'
 						>
 							{playlist.map((item) => (
 								<PlaylistCard

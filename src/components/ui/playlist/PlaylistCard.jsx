@@ -52,7 +52,9 @@ const PlaylistCard = ({
 		<motion.div
 			variants={listItem}
 			className={`flex items-center justify-between gap-2 px-4 py-3 cursor-pointer select-none drop-shadow-sm rounded-xl bg-slate-100 ${
-				activeTrack.id === item.id ? 'shadow-md scale-105' : ''
+				activeTrack.id === item.id
+					? 'shadow-md shadow-[#a435f0]/40 scale-105'
+					: ''
 			}`}
 			onClick={clickHandler}
 		>
@@ -75,7 +77,7 @@ const PlaylistCard = ({
 				<p className='text-xs line-clamp-2'>{item.author}</p>
 			</div>
 
-			{activeTrack.id === item.id && (
+			{activeTrack.id === item.id && isPlaying && (
 				<svg
 					id='equalizer'
 					width='40px'
@@ -84,7 +86,7 @@ const PlaylistCard = ({
 					version='1.1'
 					xmlns='http://www.w3.org/2000/svg'
 				>
-					<g fill='#6f6869'>
+					<g fill='#a435f0'>
 						<rect
 							id='bar1'
 							transform='translate(0.500000, 6.000000) rotate(180.000000) translate(-0.500000, -6.000000) '

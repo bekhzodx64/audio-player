@@ -2,129 +2,142 @@
 @tailwind components;
 @tailwind utilities;
 
-.slider input[type='range'] {
-	-webkit-appearance: none;
-	height: 12px;
-	border-radius: 50px;
-	background-image: linear-gradient(#a435f0, #a435f0);
-	background-repeat: no-repeat;
-}
-
-.slider input[type='range']::-webkit-slider-thumb {
-	-webkit-appearance: none;
-	width: 12px;
-	height: 12px;
-	@apply transition bg-white rounded-full ring-4 ring-purple-500 ring-opacity-80 hover:ring-opacity-100;
-}
-
-.slider input[type='range']::-webkit-slider-thumb:hover {
-	-webkit-appearance: none;
-	@apply cursor-grab ring-[6px];
-}
-
-.slider input[type='range']::-webkit-slider-thumb:active {
-	-webkit-appearance: none;
-	@apply cursor-grabbing;
-}
-
-.inner-shadow {
-	-webkit-box-shadow: 0px 5px 10px 2px #223c5033 inset;
-	-moz-box-shadow: 0px 5px 10px 2px #223c5033 inset;
-	box-shadow: 0px 5px 10px 2px #223c5033 inset;
-}
-
-.volume input[type='range'] {
-	-webkit-appearance: none;
-	height: 20px;
-	background-color: #ecf0f3;
-	background-image: linear-gradient(#a435f0, #a435f0);
-	background-repeat: no-repeat;
-	@apply rounded-full;
-}
-
-.volume input[type='range']::-webkit-slider-thumb {
-	-webkit-appearance: none;
-	width: 0px;
-	height: 0px;
-}
-
-.volume input[type='range']::-webkit-slider-thumb:hover {
-	-webkit-appearance: none;
-	@apply cursor-grab;
-}
-
-.volume input[type='range']::-webkit-slider-thumb:active {
-	-webkit-appearance: none;
-	@apply cursor-grabbing;
-}
-
-#equalizer {
-	position: relative;
-}
-
-#bar1 {
-	animation: bar1 1.2s infinite linear;
-}
-
-#bar2 {
-	animation: bar2 0.8s infinite linear;
-}
-
-#bar3 {
-	animation: bar3 1s infinite linear;
-}
-
-#bar4 {
-	animation: bar4 0.7s infinite linear;
-}
-
-@keyframes bar1 {
-	0% {
-		height: 2px;
+@layer base {
+	::-webkit-scrollbar {
+		@apply w-4 bg-[#ecf0f3];
 	}
-	50% {
-		height: 7px;
-	}
-	100% {
-		height: 2px;
+
+	::-webkit-scrollbar-thumb {
+		border: 4px solid transparent;
+		@apply bg-[#a435f0] rounded-full bg-clip-content;
 	}
 }
 
-@keyframes bar2 {
-	0% {
-		height: 5px;
+@layer components {
+	.slider input[type='range'] {
+		-webkit-appearance: none;
+		height: 12px;
+		border-radius: 50px;
+		background-image: linear-gradient(#a435f0, #a435f0);
+		background-repeat: no-repeat;
 	}
-	40% {
-		height: 1px;
-	}
-	80% {
-		height: 7px;
-	}
-	100% {
-		height: 5px;
-	}
-}
 
-@keyframes bar3 {
-	0% {
-		height: 7px;
+	.slider input[type='range']::-webkit-slider-thumb {
+		-webkit-appearance: none;
+		width: 12px;
+		height: 12px;
+		@apply transition bg-white rounded-full ring-4 ring-purple-500 ring-opacity-80 hover:ring-opacity-100;
 	}
-	50% {
-		height: 0;
-	}
-	100% {
-		height: 7px;
-	}
-}
 
-@keyframes bar4 {
-	0% {
-		height: 2px;
+	.slider input[type='range']::-webkit-slider-thumb:hover {
+		-webkit-appearance: none;
+		@apply cursor-grab ring-[6px];
 	}
-	50% {
-		height: 7px;
+
+	.slider input[type='range']::-webkit-slider-thumb:active {
+		-webkit-appearance: none;
+		@apply cursor-grabbing;
 	}
-	100% {
-		height: 2px;
+
+	.inner-shadow {
+		-webkit-box-shadow: 0px 5px 10px 2px #223c5033 inset;
+		-moz-box-shadow: 0px 5px 10px 2px #223c5033 inset;
+		box-shadow: 0px 5px 10px 2px #223c5033 inset;
+	}
+
+	.volume input[type='range'] {
+		-webkit-appearance: none;
+		height: 20px;
+		background-color: #ecf0f3;
+		background-image: linear-gradient(#a435f0, #a435f0);
+		background-repeat: no-repeat;
+		@apply rounded-full;
+	}
+
+	.volume input[type='range']::-webkit-slider-thumb {
+		-webkit-appearance: none;
+		width: 0px;
+		height: 0px;
+	}
+
+	.volume input[type='range']::-webkit-slider-thumb:hover {
+		-webkit-appearance: none;
+		@apply cursor-grab;
+	}
+
+	.volume input[type='range']::-webkit-slider-thumb:active {
+		-webkit-appearance: none;
+		@apply cursor-grabbing;
+	}
+
+	#equalizer {
+		position: relative;
+	}
+
+	#bar1 {
+		animation: bar1 1.2s infinite linear;
+	}
+
+	#bar2 {
+		animation: bar2 0.8s infinite linear;
+	}
+
+	#bar3 {
+		animation: bar3 1s infinite linear;
+	}
+
+	#bar4 {
+		animation: bar4 0.7s infinite linear;
+	}
+
+	@keyframes bar1 {
+		0% {
+			height: 2px;
+		}
+		50% {
+			height: 7px;
+		}
+		100% {
+			height: 2px;
+		}
+	}
+
+	@keyframes bar2 {
+		0% {
+			height: 5px;
+		}
+		40% {
+			height: 1px;
+		}
+		80% {
+			height: 7px;
+		}
+		100% {
+			height: 5px;
+		}
+	}
+
+	@keyframes bar3 {
+		0% {
+			height: 7px;
+		}
+		50% {
+			height: 0;
+		}
+		100% {
+			height: 7px;
+		}
+	}
+
+	@keyframes bar4 {
+		0% {
+			height: 2px;
+		}
+		50% {
+			height: 7px;
+		}
+		100% {
+			height: 2px;
+		}
 	}
 }
