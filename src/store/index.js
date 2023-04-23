@@ -44,6 +44,14 @@ const useAudioStore = create((set, get) => ({
 			}))
 		},
 	},
+	playlist: {
+		isOpen: false,
+		togglePlaylist: () => {
+			set((state) => ({
+				playlist: { ...state.playlist, isOpen: !state.playlist.isOpen },
+			}))
+		},
+	},
 	// tracks: {
 	// 	list: [],
 	// 	countTracks: () => {

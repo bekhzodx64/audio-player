@@ -27,41 +27,6 @@ function App() {
 	// 		track: track2,
 	// 		poster: poster1,
 	// 	},
-	// 	{
-	// 		id: 2,
-	// 		title: 'Our Destiny Lies Above Us',
-	// 		author: 'Hans Zimmer',
-	// 		track: track3,
-	// 		poster: poster3,
-	// 	},
-	// 	{
-	// 		id: 3,
-	// 		title: 'Shaab',
-	// 		author: 'DJ Track',
-	// 		track: track5,
-	// 		poster: poster5,
-	// 	},
-	// 	{
-	// 		id: 4,
-	// 		title: 'Friend Like Me',
-	// 		author: 'Robin Williams ',
-	// 		track: track6,
-	// 		poster: poster6,
-	// 	},
-	// 	{
-	// 		id: 5,
-	// 		title: 'Ice Queen',
-	// 		author: 'Within Temptation',
-	// 		track: track7,
-	// 		poster: poster7,
-	// 	},
-	// 	{
-	// 		id: 6,
-	// 		title: 'Sets Go Up',
-	// 		author: 'Juvenile',
-	// 		track: track8,
-	// 		poster: poster8,
-	// 	},
 	// ])
 	// const [activeTrack, setActiveTrack] = useState(tracks[0])
 

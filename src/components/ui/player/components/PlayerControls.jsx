@@ -16,6 +16,8 @@ const PlayerControls = () => {
 	const { toggleLoop, playerRef, volume, toggleMute, setVolume } =
 		useAudioStore((state) => state.player)
 
+	const { togglePlaylist } = useAudioStore((state) => state.playlist)
+
 	const volumeBarIcons = volumeFuntion(volume)
 
 	const volumeChangeHandler = (event) => {
@@ -65,7 +67,11 @@ const PlayerControls = () => {
 					icon={<TfiLoop size={22} />}
 				/>
 				<ControlButton icon={<BsShuffle size={22} />} />
-				<ControlButton icon={<RiPlayListLine size={22} />} />
+				<ControlButton
+					role='playlist'
+					onClick={togglePlaylist}
+					icon={<RiPlayListLine size={22} />}
+				/>
 			</div>
 		</div>
 	)
