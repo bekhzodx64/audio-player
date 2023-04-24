@@ -8,27 +8,13 @@ import Player from 'components/ui/player'
 import Playlist from 'components/ui/playlist'
 import AudioPlayer from 'components/components/AudioPlayer'
 
-// import PlaylistCard from './components/ui/playlist/PlaylistCard'
-
 function App() {
 	const { playerRef, volume, setVolume } = useAudioStore(
 		(state) => state.player
 	)
 
-	// const [favorite, setFavorite] = useState(false)
-	// const [showPlaylist, setShowPlaylist] = useState(false)
-	// const [showFavorites, setShowFavorites] = useState(true)
-
-	// const [tracks] = useState([
-	// 	{
-	// 		id: 1,
-	// 		title: 'Happy',
-	// 		author: 'Pharrell Williams',
-	// 		track: track2,
-	// 		poster: poster1,
-	// 	},
-	// ])
-	// const [activeTrack, setActiveTrack] = useState(tracks[0])
+	const test = useAudioStore((state) => state)
+	console.log('🪲 ~ file: App.jsx:19 ~ App ~ test:', test.playlist)
 
 	// const playNextTrack = () => {
 	// 	if (!isPlaying) setIsPlaying(true)
@@ -54,10 +40,6 @@ function App() {
 	// 	const audio = new Audio(nextTrack)
 	// 	audioRef.current = audio
 	// 	audio.play()
-	// }
-
-	// const togglePlaylist = () => {
-	// 	setShowPlaylist(!showPlaylist)
 	// }
 
 	useHotkeys('KeyM', () => {
@@ -97,31 +79,6 @@ function App() {
 								</h2>
 								<BsHeartbreakFill className='text-[#6f6869]/30 text-9xl absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2' />
 							</div>
-						</motion.div>
-					)}
-				</AnimatePresence> */}
-
-			{/* <AnimatePresence>
-					{showPlaylist && (
-						<motion.div
-							initial='hidden'
-							animate='visible'
-							exit='exit'
-							variants={list}
-							className='bg-[#ecf0f3] flex flex-col p-5 drop-shadow-md gap-3 relative z-10 h-full overflow-y-auto'
-						>
-							{playlist.map((item) => (
-								<PlaylistCard
-									key={item.id}
-									item={item}
-									audioRef={audioRef}
-									activeTrack={activeTrack}
-									isPlaying={isPlaying}
-									setIsPlaying={setIsPlaying}
-									setCurrentTime={setCurrentTime}
-									setActiveTrack={setActiveTrack}
-								/>
-							))}
 						</motion.div>
 					)}
 				</AnimatePresence> */}

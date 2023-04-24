@@ -7,28 +7,34 @@ import track1 from 'assets/tracks/track5.mp3'
 const AudioPlayer = () => {
 	const audioRef = useRef()
 
-	const { getPlayerRef, togglePlay, getDuration, getCurrentTime, loop } =
-		useAudioStore((state) => state.player)
+	const {
+		getPlayerRef,
+		togglePlay,
+		getDuration,
+		getCurrentTime,
+		loop,
+		autoPlay,
+	} = useAudioStore((state) => state.player)
+
+	const { activeTrack } = useAudioStore((state) => state.playlist)
 
 	return (
-		<>
-			<audio
-				preload='auto'
-				ref={audioRef}
-				onEnded={togglePlay}
-				loop={loop}
-				onLoadedData={() => getPlayerRef(audioRef)}
-				onCanPlay={(e) => getDuration(e.target.duration)}
-				onTimeUpdate={(e) => getCurrentTime(e.target.currentTime)}
-				// key={activeTrack.id}
-			>
-				<source
-					// src={activeTrack.track}
-					src={track1}
-					type='audio/mpeg'
-				/>
-			</audio>
-		</>
+		<audio
+			loop={loop}
+			preload='auto'
+			ref={audioRef}
+			autoPlay={autoPlay}
+			key={activeTrack.id}
+			onEnded={togglePlay}
+			onLoadedData={() => getPlayerRef(audioRef)}
+			onCanPlay={(e) => getDuration(e.target.duration)}
+			onTimeUpdate={(e) => getCurrentTime(e.target.currentTime)}
+		>
+			<source
+				src={activeTrack ? activeTrack.src : track1}
+				type='audio/mpeg'
+			/>
+		</audio>
 	)
 }
 

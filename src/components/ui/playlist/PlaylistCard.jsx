@@ -1,3 +1,5 @@
+import useAudioStore from 'store'
+
 import Equalizer from 'components/components/Equalizer'
 
 import { MdOutlineFavoriteBorder } from 'react-icons/md'
@@ -7,7 +9,32 @@ import { MdOutlineFavoriteBorder } from 'react-icons/md'
 // 	hidden: { opacity: 0, y: -50 },
 // }
 
-const PlaylistCard = () => {
+const PlaylistCard = ({ track }) => {
+	const { setCurrentTime, isPlaying, togglePlay, playerRef } = useAudioStore(
+		(state) => state.player
+	)
+	const { activeTrack, setActiveTrack } = useAudioStore(
+		(state) => state.playlist
+	)
+
+	const clickHandler = () => {
+		setActiveTrack(track)
+
+		if (isPlaying) {
+			togglePlay()
+			playerRef.pause()
+		}
+
+		if (!isPlaying) {
+			togglePlay()
+			playerRef.play()
+		}
+
+		if (activeTrack.id !== track.id) {
+			setCurrentTime(0)
+		}
+	}
+
 	// const clickHandler = () => {
 	// 	const audio = new Audio(item)
 	// 	audioRef.current = audio
@@ -31,7 +58,7 @@ const PlaylistCard = () => {
 		<div
 			// variants={listItem}
 			className='flex items-center justify-between gap-2 px-4 py-3 cursor-pointer select-none drop-shadow-sm rounded-xl bg-slate-100'
-			// onClick={clickHandler}
+			onClick={clickHandler}
 		>
 			<button
 				type='button'
@@ -48,17 +75,17 @@ const PlaylistCard = () => {
 				/> */}
 			</div>
 			<div className='basis-full'>
-				<h2 className='text-sm font-bold line-clamp-1'>title</h2>
+				<h2 className='text-sm font-bold line-clamp-1'>{track.name}</h2>
 				<p className='text-xs line-clamp-2'>author</p>
 			</div>
 
-			<Equalizer />
+			{activeTrack.id === track.id && <Equalizer />}
 
 			<div className='text-xs font-light text-[#97999a]'>2:23</div>
 
 			<audio
 				preload='auto'
-				// onCanPlay={(e) => setDuration(e.target.duration)}
+				// onCanPlay={(e) => getDuration(e.target.duration)}
 			>
 				<source
 					// src={item.track}

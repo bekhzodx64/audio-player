@@ -4,7 +4,7 @@ import useAudioStore from 'store'
 import PlaylistCard from './PlaylistCard'
 
 const Playlist = () => {
-	const { isOpen } = useAudioStore((state) => state.playlist)
+	const { isOpen, tracks } = useAudioStore((state) => state.playlist)
 
 	return (
 		<AnimatePresence>
@@ -12,43 +12,35 @@ const Playlist = () => {
 				<motion.div
 					initial={{
 						opacity: 0,
+						paddingLeft: 0,
+						paddingRight: 0,
 						width: 0,
 						overflow: 'hidden',
 					}}
 					animate={{
 						opacity: 1,
+						paddingLeft: 20,
+						paddingRight: 20,
 						width: '100%',
 						overflowY: 'auto',
 					}}
-					exit={{ opacity: 0, width: 0, overflow: 'hidden' }}
-					className='bg-[#ecf0f3] flex flex-col p-5 drop-shadow-md gap-3 relative z-10 h-full overflow-y-auto'
+					exit={{
+						opacity: 0,
+						paddingLeft: 0,
+						paddingRight: 0,
+						width: 0,
+						overflow: 'hidden',
+					}}
+					className='bg-[#ecf0f3] flex flex-col p-5 drop-shadow-md gap-3 relative z-10 h-full'
 				>
-					<PlaylistCard />
-				</motion.div>
-			)}
-
-			{/* 
-				<motion.div
-					initial='hidden'
-					animate='visible'
-					exit='exit'
-					variants={list}
-					className='bg-[#ecf0f3] flex flex-col p-5 drop-shadow-md gap-3 relative z-10 h-full overflow-y-auto'
-				>
-					{playlist.map((item) => (
+					{tracks.map((track) => (
 						<PlaylistCard
-							key={item.id}
-							item={item}
-							audioRef={audioRef}
-							activeTrack={activeTrack}
-							isPlaying={isPlaying}
-							setIsPlaying={setIsPlaying}
-							setCurrentTime={setCurrentTime}
-							setActiveTrack={setActiveTrack}
+							key={track.id}
+							{...{ track }}
 						/>
 					))}
 				</motion.div>
-		 */}
+			)}
 		</AnimatePresence>
 	)
 }
